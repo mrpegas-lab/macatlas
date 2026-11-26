@@ -1,0 +1,40 @@
+<h5>Установка и конфигурация</h5>
+
+<h5>Структура каталогов</h5>
+<pre>/var/www/macatlas   — веб-интерфейс (корень виртуального хоста)
+/etc/macatlas       — config.json и license.json (вне webroot!)
+/opt/collector      — Python-скрипты фоновых задач
+/mnt/backups        — файлы бэкапов
+/var/log/macatlas   — логи фоновых задач</pre>
+
+<h5>config.json</h5>
+<p>Единая точка настройки. Путь можно переопределить переменной окружения <code>MACATLAS_CONFIG</code>.</p>
+<pre>{
+  "bd": {
+    "dblocation": "localhost",
+    "dbname": "macatlas",
+    "dbuser": "...",
+    "dbpasswd": "..."
+  },
+  "key": { "master_key": "..." },
+  "backup_root": "/mnt/backups",
+  "app": { "debug": false, "version": "1.3.0" },
+  "FIRMWARE": {
+    "DIR": "/var/www/macatlas/files/firmware/",
+    "URL": "http://<адрес-сервера>/files/firmware/",
+    "MODE": "prod"
+  }
+}</pre>
+<ul>
+    <li><code>key.master_key</code> — ключ шифрования паролей (credentials). Генерируется при установке; <strong>потеря ключа = потеря всех сохранённых паролей</strong></li>
+    <li><code>app.debug</code> — на проде держать <code>false</code>; <code>app.version</code> — версия продукта (показывается в «О программе»)</li>
+    <li><code>FIRMWARE</code> — папка с пакетами RouterOS и URL, по которому устройства их скачивают; в папке же лежит <code>version.txt</code> с целевой версией</li>
+    <li>Доменная авторизация (LDAP) настраивается не здесь, а в интерфейсе: «Настройки системы» → «Доменная авторизация (LDAP)»</li>
+</ul>
+
+<h5>Требования</h5>
+<ul>
+    <li>PHP 8+, MariaDB/MySQL, Python 3.10+ (<code>paramiko</code>, <code>mysql-connector-python</code>, <code>cryptography</code>, <code>librouteros</code>, <code>pyyaml</code>, <code>lanname</code>)</li>
+    <li>Cron с одной строкой-диспетчером <code>job_runner.py</code> (ставится install.sh); остальные задачи управляются из веб-интерфейса</li>
+    <li>Схема БД — актуальный дамп <code>bd/macatlas.sql</code> в комплекте установки</li>
+</ul>

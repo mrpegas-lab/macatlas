@@ -1,0 +1,42 @@
+<h5>Фоновые задачи (cron)</h5>
+<p>Все сборы данных и бэкапы выполняются по расписанию. Расписанием управляет веб-интерфейс — «Настройки системы» → «Задачи планировщика», править crontab руками не нужно. Логи — в <code>/var/log/macatlas/</code>.</p>
+
+<h5>Как это устроено</h5>
+<p>В crontab одна постоянная строка — диспетчер <code>job_runner.py</code> (ставится install.sh):</p>
+<pre>* * * * * /usr/bin/python3 /opt/collector/job_runner.py >> /var/log/macatlas/job_runner.log 2>&1</pre>
+<p>Каждую минуту диспетчер:</p>
+<ul>
+    <li>пересобирает блок задач в crontab (между маркерами <code># --- MacAtlas jobs BEGIN/END ---</code>) по реестру <code>collector_jobs</code> — если изменилось расписание или флаги включения;</li>
+    <li>выполняет ручные запуски из веб-интерфейса (кнопка «Запустить») и пишет их результат.</li>
+</ul>
+<p>Каждая задача запускается через <code>job_guard.py</code> — он проверяет флаг включения в <code>app_settings</code> перед запуском: выключенная задача остаётся в crontab закомментированной.</p>
+
+<h5>Задачи по умолчанию</h5>
+<table class="table table-sm">
+    <tr><td><code>ping_monitor</code></td><td>каждую минуту</td><td>Многопоточная проверка доступности устройств (метод на узел: ping, http, https, tcp, dns, ssh, snmp). Состояние — в <code>hw_ping_state</code>, красит узлы/линки карты; ведёт журнал инцидентов</td></tr>
+    <tr><td><code>resolve_hostnames</code></td><td>Пн–Пт 11:00</td><td>Разрешение имён (PTR/NetBIOS) для адресов IPAM</td></tr>
+    <tr><td><code>harvest</code></td><td>Пн–Пт 12:20</td><td>Сбор со свичей: порты, MAC-адреса, паспорт (версия, серийник, температура, PoE)</td></tr>
+    <tr><td><code>ipam_arp_sync</code></td><td>Пн–Пт 13:00</td><td>ARP/DHCP с роутеров → IPAM + паспорт роутера (прошивка, серийник, модель, аптайм) в hardware</td></tr>
+    <tr><td><code>run_stat</code></td><td>Пн–Сб 13:30</td><td>Статистика роутеров объектов (mt_sites) — модель, версия, ресурсы → mt_devices</td></tr>
+    <tr><td><code>backup_py</code></td><td>ежедневно 01:00</td><td>Бэкапы конфигураций всего парка (backup.py): MikroTik — .rsc + .backup (SCP), свичи — show running-config (.cfg)</td></tr>
+    <tr><td><code>backup_indexer</code></td><td>ежедневно 02:40</td><td>Индексация бэкапов в БД: новые/изменённые/удалённые файлы, связи версий и diff, поиск orphan-папок</td></tr>
+</table>
+
+<h5>Управление из веба</h5>
+<ul>
+    <li>«Настройки системы» → «Задачи планировщика»: включить/выключить задачу, изменить cron-расписание (5 полей: мин час день месяц день_недели), запустить вручную</li>
+    <li>Изменения попадают в crontab в течение минуты автоматически</li>
+    <li>Ручной запуск работает даже у выключенной задачи; статус (в очереди / выполняется / успех / ошибка) виден прямо на странице</li>
+</ul>
+
+<h5>Ручной запуск из консоли</h5>
+<p>Любой скрипт можно запустить вручную из-под root — например, для отладки:</p>
+<pre>python3 /opt/collector/backup.py --ip 10.0.0.1           # бэкап одного устройства (dry-run)
+python3 /opt/collector/backup.py --ip 10.0.0.1 --write   # то же с записью файлов
+python3 /opt/collector/backup_indexer.py --prune --diff
+python3 /opt/collector/run_stat.py --limit 3</pre>
+
+<h5>Если после ручных правок в БД задачи не обновились в crontab</h5>
+<p>Правки <code>collector_jobs</code> напрямую в БД не выставляют флаг пересборки. Выставите его вручную:</p>
+<pre>mysql macatlas -e "INSERT INTO app_settings (name,value) VALUES ('crontab_dirty','1') ON DUPLICATE KEY UPDATE value='1';"</pre>
+<p>Блок в crontab пересоберётся в течение минуты (см. <code>/var/log/macatlas/job_runner.log</code>).</p>

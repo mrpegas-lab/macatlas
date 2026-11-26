@@ -62,7 +62,7 @@ sudo bash install.sh
 ```
 install.sh          — установщик
 install.conf        — необязательные параметры установки
-bd/                 — чистый дамп БД + скрипт очистки (clean_for_install.sql)
+bd/                 — чистый дамп БД
 etc/macatlas/       — шаблон конфигурации (секреты подставляет установщик)
 opt/collector/      — Python-сборщики (мониторинг, бэкапы, статистика, LLDP/VLAN)
 var/www/macatlas/   — веб-интерфейс (PHP)

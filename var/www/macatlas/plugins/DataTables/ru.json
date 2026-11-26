@@ -1,0 +1,36 @@
+{
+    "emptyTable": "Нет данных",
+    "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+    "infoEmpty": "Показано 0 из 0",
+    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+    "infoThousands": " ",
+    "lengthMenu": "Показать _MENU_ записей",
+    "loadingRecords": "Загрузка...",
+    "processing": "Обработка...",
+    "search": "Поиск:",
+    "zeroRecords": "Записи не найдены",
+    "paginate": {
+        "first": "«",
+        "last": "»",
+        "next": "›",
+        "previous": "‹"
+    },
+    "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+    },
+    "select": {
+        "rows": {
+            "1": "Выбрана 1 строка",
+            "_": "Выбрано строк: %d"
+        }
+    },
+    "buttons": {
+        "copy": "Копировать",
+        "excel": "Excel",
+        "csv": "CSV",
+        "pdf": "PDF",
+        "print": "Печать",
+        "colvis": "Колонки"
+    }
+}

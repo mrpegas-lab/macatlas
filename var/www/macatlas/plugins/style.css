@@ -1,0 +1,905 @@
+/* ============================================================================
+   MACATLAS — ЕДИНЫЙ ФАЙЛ СТИЛЕЙ ПРОЕКТА
+   ----------------------------------------------------------------------------
+   ВСЯ настройка внешнего вида делается в секции «ПАНЕЛЬ НАСТРОЕК» ниже:
+   шрифты по областям экрана, высота строк таблиц, цвета, размеры каркаса.
+
+   Структура файла:
+     1. ПАНЕЛЬ НАСТРОЕК (переменные :root)        — менять дизайн ТОЛЬКО здесь
+     2. База (body, ссылки)
+     3. Навбар и стартовый экран
+     4. Панели и логи
+     5. DataTables (все таблицы проекта)
+     6. Каркас «форма слева + таблица справа» (cmd-*)
+     7. Бейджи версий MikroTik
+     8. Прочие общие блоки
+     9. Стили отдельных модулей (каждый — в своей секции)
+    10. Страница входа (login.php)
+    11. АДАПТИВ для ноутбуков 15" (те же переменные, компактные значения)
+
+   Правило: новые стили добавляем только сюда, в секцию своего модуля,
+   и выносим изменяемые значения в переменные ПАНЕЛИ НАСТРОЕК.
+   ============================================================================ */
+
+
+/* ============================================================================
+   1. ПАНЕЛЬ НАСТРОЕК — ВСЕ РАЗМЕРЫ, ШРИФТЫ И ЦВЕТА МЕНЯЮТСЯ ЗДЕСЬ
+   ============================================================================ */
+:root {
+
+    /* ------------------------------------------------------------------------
+       ЦВЕТА
+       ------------------------------------------------------------------------ */
+    --bg-body:        #121212;            /* фон всей страницы */
+    --bg-surface:     #1a1a1a;            /* фон карточек стартового экрана */
+    --bg-surface-2:   #222222;            /* фон выпадающих меню */
+    --bg-surface-3:   #2c2c2c;            /* фон при наведении в меню */
+    --border-color:   #3a3a3a;            /* общие рамки */
+    --text-main:      #eaeaea;            /* основной текст */
+    --text-muted:     #9a9a9a;            /* приглушённый текст */
+    --accent:         #e0a458;            /* акцентный цвет (янтарь): ссылки, выделение, активная страница пагинации */
+    --accent-soft:    rgba(224,164,88,.15); /* акцентный фон (полупрозрачный) */
+
+    /* ------------------------------------------------------------------------
+       ШРИФТЫ ПО ОБЛАСТЯМ ЭКРАНА
+       ------------------------------------------------------------------------ */
+    --font-navbar:        1rem;    /* верхнее меню: пункты и выпадающие списки */
+    --font-navbar-brand:  1.25rem; /* логотип «MacAtlas» в меню */
+    --font-welcome:       0.9rem;  /* подписи карточек на стартовом экране */
+    --base-font:          13px;    /* ШРИФТ ТАБЛИЦ (DataTables) и текстовых полей */
+    --font-table-compact: 0.82rem; /* плотные таблицы (модуль «Оборудование») */
+    --log-font:           12px;    /* моноширинные логи и конфиги (log-box) */
+    --hint-font:          12px;    /* мелкие подсказки в формах */
+    --badge-font:         11px;    /* бейджи версий MikroTik */
+    --banner-font:        13px;    /* текст баннеров-предупреждений */
+    --font-tabs:          1rem;    /* вкладки карточки салона (Редактировать/Конфиг/…) */
+    --dl-name-font:       .85rem;  /* имя файла в списке скачивания (mt_config) */
+    --dl-meta-font:       .75rem;  /* дата файла в списке скачивания */
+    --dl-title-font:      .72rem;  /* заголовок группы файлов */
+
+    /* ------------------------------------------------------------------------
+       ТАБЛИЦЫ: ВЫСОТА СТРОК
+       Чем больше --cell-pad-y, тем выше строки во ВСЕХ таблицах проекта.
+       ------------------------------------------------------------------------ */
+    --cell-pad-y:         10px;    /* вертикальный отступ ячейки = высота строки */
+    --cell-pad-x:         12px;    /* горизонтальный отступ ячейки */
+
+    /* ------------------------------------------------------------------------
+       КАРКАС СТРАНИЦЫ
+       ------------------------------------------------------------------------ */
+    --navbar-h:           64px;    /* высота верхнего меню (для расчёта sticky-форм) */
+    --page-top-pad:       30px;    /* отступ контента сверху (под фиксированным меню) */
+    --sticky-top:         calc(var(--navbar-h) + 8px); /* на какой высоте «прилипает» левая форма */
+    --form-max-h:         calc(100vh - var(--navbar-h) - 40px); /* макс. высота липкой формы */
+    --form-width:         500px;   /* ширина левой колонки с формой (cmd-form) */
+    --table-min-width:    600px;   /* минимальная ширина правой колонки с таблицей */
+    --layout-gap:         14px;    /* зазор между формой и таблицей */
+
+    /* ------------------------------------------------------------------------
+       ПАНЕЛИ (карточки-контейнеры модулей)
+       ------------------------------------------------------------------------ */
+    --panel-bg:           #242424; /* фон панели */
+    --panel-border:       #3d3d3d; /* рамка панели */
+    --panel-inner-bg:     #1c1c1c; /* фон внутренних областей (логи, textarea) */
+    --panel-radius:       8px;     /* скругление углов панели */
+    --panel-padding:      12px 16px; /* внутренние отступы панели */
+
+    /* ------------------------------------------------------------------------
+       ЛОГИ И ТЕКСТОВЫЕ ПОЛЯ
+       ------------------------------------------------------------------------ */
+    --log-height:         270px;   /* высота блока лога (log-box) */
+    --textarea-min-h:     260px;   /* минимальная высота многострочных полей */
+    --textarea-pad:       12px;    /* отступы внутри многострочных полей */
+    --comment-h:          80px;    /* высота поля «Комментарий» в карточке салона */
+
+    /* --- Вкладка «Редактировать» карточки салона (mt_config) --- */
+    --edit-form-font:     12px;    /* шрифт подписей и самих полей формы */
+    --edit-field-pad-y:   3px;     /* вертикальный отступ внутри полей (высота полей) */
+    --edit-field-pad-x:   8px;     /* горизонтальный отступ внутри полей */
+
+    /* --- Матрица VLAN (ipam_matrix) --- */
+    --mx-font:      12px;   /* базовый шрифт матрицы */
+    --mx-cell:      38px;   /* ширина ячейки-столбца матрицы (все столбцы строго одинаковые) */
+    --mx-h1:        24px;   /* высота 1-й строки шапки (группы площадок) */
+    --mx-h2:        110px;  /* высота 2-й строки шапки (вертикальные подписи VLAN) */
+    --mx-w1:        130px;  /* ширина левой колонки «Площадка» */
+    --mx-w2:        55px;   /* «VLAN» */
+    --mx-w3:        115px;  /* «Подсеть» */
+    --mx-w4:        150px;  /* «Назначение» */
+    --mx-w5:        105px;  /* «Шлюз» */
+
+    /* ------------------------------------------------------------------------
+       БЕЙДЖИ И БАННЕРЫ
+       ------------------------------------------------------------------------ */
+    --badge-pad:          4px 8px; /* отступы бейджей версий */
+    --banner-pad:         8px 14px;/* отступы баннеров */
+
+    /* ------------------------------------------------------------------------
+       СПИСОК ФАЙЛОВ (вкладка «Файлы» в карточке салона)
+       ------------------------------------------------------------------------ */
+    --dl-icon-size:       24px;    /* размер иконки файла и кнопки скачивания */
+}
+
+/* ============================================================================
+   2. БАЗА (страница и ссылки)
+   ============================================================================ */
+html, body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    padding-top: var(--page-top-pad);
+}
+
+/* Страница входа — исключение: там своя флекс-центровка, отступы не нужны */
+html:has(> body.login-page),
+body.login-page {
+    padding-top: 0;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: #f0bc7e; }
+
+/* ============================================================================
+   3. НАВБАР И СТАРТОВЫЙ ЭКРАН
+   ============================================================================ */
+.navbar { background: #161616 !important; border-bottom: 2px solid var(--accent); }
+.navbar-brand { color: var(--text-main) !important; font-weight: 600; font-size: var(--font-navbar-brand); }
+.navbar .nav-link { color: #b8b8b8 !important; font-size: var(--font-navbar); }
+.navbar .nav-link:hover { color: #fff !important; }
+.navbar .dropdown-menu { background-color: var(--bg-surface-2) !important; border: 1px solid var(--border-color) !important; }
+.navbar .dropdown-item { color: var(--text-main) !important; font-size: var(--font-navbar); }
+.navbar .dropdown-item:hover { background-color: var(--bg-surface-3) !important; color: #fff !important; }
+.navbar-nav.border-end { border-color: var(--border-color) !important; }
+
+/* Карточки модулей на стартовом экране */
+.welcome-card, a.welcome-card { display: block; text-decoration: none !important; color: inherit !important; border: 1px solid var(--border-color) !important; border-radius: 14px; padding: 22px 12px; text-align: center; background: var(--bg-surface) !important; transition: transform .15s ease, border-color .15s ease; }
+.welcome-card:hover { transform: translateY(-4px); border-color: var(--accent) !important; }
+.welcome-card .icon-wrap { width: 56px; height: 56px; margin: 0 auto 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--accent-soft) !important; color: var(--accent) !important; font-size: 26px; }
+.welcome-card .welcome-title { font-size: var(--font-welcome); font-weight: 500; color: var(--text-main) !important; }
+
+/* ============================================================================
+   4. ПАНЕЛИ И ЛОГИ
+   ============================================================================ */
+
+/* Универсальная панель-контейнер всех модулей */
+.panel { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--panel-radius); padding: var(--panel-padding); }
+
+/* Блок лога с внутренним скроллом (выполнение команд, конфиги) */
+.log-box {
+    flex: 1 1 auto;
+    min-height: var(--log-height);
+    max-height: var(--log-height);
+    overflow-y: auto;          /* скролл внутри блока */
+    overflow-x: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--panel-inner-bg);
+    padding: 8px 10px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: var(--log-font);
+    line-height: 1.5;
+    color: #9ab;
+    box-sizing: border-box;
+}
+
+/* Строки лога выполнения команд (mt_run) */
+.log-line { padding: 4px 0; border-bottom: 1px solid var(--bg-surface-3); font-size: var(--log-font); line-height: 1.4; white-space: pre-wrap; word-break: break-word; }
+.log-line:last-child { border-bottom: none; }
+.log-line .head { color: #ccc; font-weight: 500; }
+.log-line .out { color: #9ab; margin-top: 2px; padding-left: 20px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.log-line.ok .head { color: #7ddf9a; }      /* успешное выполнение — зелёный заголовок */
+.log-line.fail .head { color: #df7d7d; }    /* ошибка — красный заголовок */
+.progress-empty { color: #555; font-style: italic; padding: 4px 0; }
+
+/* ============================================================================
+   5. DATATABLES — ЕДИНЫЙ СТИЛЬ ВСЕХ ТАБЛИЦ ПРОЕКТА
+   ============================================================================ */
+div.dt-container, div.dataTables_wrapper {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Ручные таблицы (без DataTables) — тот же базовый шрифт, что у dataTable,
+   иначе наследуют body 16px и визуально крупнее соседних таблиц (2026-11-25) */
+.table { font-size: var(--base-font); }
+
+table.dataTable {
+    background-color: #2a2a2a !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    font-size: var(--base-font);
+    border: none !important;
+}
+
+/* Шапка таблицы */
+table.dataTable thead th { background-color: #242424 !important; color: #aaa !important; font-weight: 500 !important; padding: var(--cell-pad-y) var(--cell-pad-x) !important; border: none !important; border-bottom: 1px solid #3d3d3d !important; white-space: nowrap; }
+
+/* Ячейки данных — высота строки задаётся через --cell-pad-y */
+table.dataTable tbody td { background-color: transparent !important; color: #eaeaea !important; padding: var(--cell-pad-y) var(--cell-pad-x) !important; border: none !important; border-bottom: 1px solid #333 !important; vertical-align: middle !important; }
+
+/* Зебра и наведение */
+table.dataTable.table-striped > tbody > tr:nth-of-type(odd) > td { background-color: rgba(255, 255, 255, 0.03) !important; }
+table.dataTable tbody tr:hover > td { background-color: #2f2f2f !important; color: #fff !important; }
+
+/* Выделенная строка (графитовый фон + янтарная полоска слева).
+   Работает и для DataTables (класс selected), и для ручного выделения (at-selected). */
+table.dataTable tbody tr.selected > td,
+tr.at-selected > td {
+    background-color: #323b47 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+table.dataTable tbody tr.selected > td:first-child,
+tr.at-selected > td:first-child {
+    box-shadow: inset 3px 0 0 0 var(--accent) !important;
+}
+
+/* Поиск, выбор количества строк, пагинация, инфо-строка */
+.dt-search input, .dt-length select { background-color: #2a2a2a !important; border: 1px solid #3d3d3d !important; color: #eaeaea !important; }
+.dt-paging .page-item .page-link { background-color: #2a2a2a !important; border-color: #3d3d3d !important; color: #aaa !important; }
+.dt-paging .page-item.active .page-link { background-color: var(--accent) !important; border-color: var(--accent) !important; color: #121212 !important; font-weight: bold; }
+.dt-info { color: #aaa !important; font-size: var(--base-font) !important; padding-top: 10px !important; }
+
+/* ============================================================================
+   6. КАРКАС МОДУЛЕЙ «ФОРМА СЛЕВА + ТАБЛИЦА СПРАВА» (cmd-*)
+   ============================================================================ */
+
+/* Общий контейнер: на широких экранах — в ряд, на узких — таблица под формой */
+.cmd-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--layout-gap);
+    align-items: flex-start;
+}
+
+/* Левая колонка — липкая форма */
+.cmd-form {
+    flex: 0 0 var(--form-width);
+    max-width: 100%;
+    position: sticky;
+    top: var(--sticky-top);
+    max-height: var(--form-max-h);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+/* Сама форма скроллится внутри колонки */
+.cmd-form form {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+.cmd-form form::-webkit-scrollbar { width: 6px; }
+.cmd-form form::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+.cmd-form form::-webkit-scrollbar-track { background: transparent; }
+
+/* Правая колонка — таблица */
+.cmd-table {
+    flex: 1 1 var(--table-min-width);
+    min-width: 0;    /* важно для корректного сжатия flex-элементов */
+}
+.cmd-table .dt-container,
+.cmd-table div.dataTables_wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Панель внутри cmd-layout: колонка с растянутым содержимым */
+.cmd-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Многострочные поля (логи, SQL, конфиги) внутри панелей */
+.cmd-panel textarea {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: var(--textarea-min-h);
+    background: var(--panel-inner-bg);
+    color: var(--text-main);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    padding: var(--textarea-pad);
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: var(--base-font);
+    line-height: 1.45;
+    resize: none;
+    tab-size: 4;
+    overflow: auto;
+}
+
+/* Мелкая подсказка под полем */
+.cmd-panel .hint { color: #888; font-size: var(--hint-font); }
+
+/* ---------------------------------------------------------------------------
+   УНИВЕРСАЛЬНАЯ РАСТЯЖКА ЛЕВОЙ КОЛОНКИ ДО НИЗА ЭКРАНА
+   Работает во ВСЕХ модулях одинаково: скрипт в index.php при загрузке модуля
+   (и при изменении размера окна) вешает колонке класс col-fit и выставляет
+   точную высоту до низа экрана. Правило раскладки внутри колонки одно:
+   div'ы верхнего уровня делят высоту ПОРОВНУ (один div — на всю высоту),
+   а внутренние поля просто заполняют своего родителя.
+   --------------------------------------------------------------------------- */
+.cmd-form.col-fit {
+    position: static;            /* отключаем sticky-поведение */
+    max-height: none;
+    height: calc(100vh - 160px); /* стартовая высота до срабатывания скрипта */
+    overflow: hidden;            /* колонка никогда не вылазит за пределы */
+}
+/* Div'ы верхнего уровня делят высоту колонки поровну */
+.cmd-form.col-fit > * { flex: 1 1 0; min-height: 0; }
+/* Логи внутри растянутой колонки — без глобального потолка --log-height */
+.cmd-form.col-fit .log-box { max-height: none; min-height: 0; }
+/* Текстовые поля внутри панелей: минимум поменьше, чтобы не выталкивать кнопки */
+.cmd-form.col-fit .cmd-panel textarea { min-height: 120px; }
+
+/* ============================================================================
+   7. БЕЙДЖИ ВЕРСИЙ MIKROTIK
+   ============================================================================ */
+.badge-version {
+    font-size: var(--badge-font) !important;
+    padding: var(--badge-pad) !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    display: inline-block;
+    line-height: 1;
+}
+.badge-old { background-color: #3a1a1a !important; color: #ff6b6b !important; border: 1px solid #6a2a2a !important; } /* устаревшая версия */
+.badge-ok  { background-color: #1a3a1a !important; color: #7ddf9a !important; border: 1px solid #2a6a2a !important; } /* актуальная версия */
+
+/* ============================================================================
+   8. ПРОЧИЕ ОБЩИЕ БЛОКИ
+   ============================================================================ */
+
+/* Неактивные кнопки (нет прав / недоступно в данный момент).
+   Bootstrap по умолчанию даёт им только прозрачность 0.65 — кнопка выглядит
+   «тёмноватой», но не читается как запрещённая. Делаем заметно бледнее
+   и обесцвечиваем: серые, приглушённые, с курсором «нельзя». */
+.btn:disabled,
+.btn.disabled,
+button[disabled] {
+    opacity: 0.4;
+    filter: grayscale(1);
+    cursor: not-allowed;
+    pointer-events: auto; /* иначе пропадёт всплывающая подсказка title */
+}
+
+/* Поле «Комментарий» в карточке салона (mt_config):
+   жёстко фиксируем высоту, иначе flex-раскладка растягивает textarea */
+#edit_comment {
+    height: var(--comment-h) !important;
+    min-height: var(--comment-h) !important;
+    max-height: var(--comment-h) !important;
+    flex: none !important;
+    display: block !important;
+    resize: none !important;
+}
+
+/* Список файлов для скачивания (вкладка «Файлы» в mt_config) */
+.dl-list { display: flex; flex-direction: column; gap: 12px; padding-right: 4px; }
+.dl-group { display: flex; flex-direction: column; gap: 1px; }
+.dl-group-title { font-size: var(--dl-title-font); font-weight: 600; color: var(--bs-secondary-color); text-transform: uppercase; letter-spacing: .05em; padding: 0 0 6px 6px; display: flex; align-items: center; gap: 6px; }
+.dl-item { display: flex; align-items: center; gap: 12px; padding: 6px 8px; border-radius: 4px; background: transparent; border: 1px solid transparent; transition: all .15s ease; }
+.dl-item:hover { background: var(--bs-secondary-bg); border-color: var(--bs-border-color); }
+.dl-icon { flex: 0 0 auto; width: var(--dl-icon-size); height: var(--dl-icon-size); display: flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--bs-tertiary-bg); color: var(--bs-secondary-color); font-size: 13px; }
+.dl-name { flex: 0 1 auto; font-size: var(--dl-name-font); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; color: var(--bs-body-color); }
+.dl-download { flex: 0 0 auto; padding: 0; width: var(--dl-icon-size); height: var(--dl-icon-size); display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--bs-secondary-color); border: none; background: transparent; opacity: .5; transition: all .15s ease; }
+.dl-item:hover .dl-download { opacity: 1; color: var(--bs-success); background: var(--bs-success-bg-subtle); }
+.dl-meta { flex: 1 1 auto; text-align: right; font-size: var(--dl-meta-font); color: var(--bs-secondary-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; font-variant-numeric: tabular-nums; }
+
+/* ============================================================================
+   9. СТИЛИ ОТДЕЛЬНЫХ МОДУЛЕЙ
+   ============================================================================ */
+
+/* ---------- МОДУЛЬ: Матрица прав (acl_permissions) ---------- */
+
+/* Колонки растягиваются на всю высоту каркаса: страница не скроллится,
+   прокрутка работает только внутри панели с таблицей */
+.perms-layout { align-items: stretch; }
+.perms-layout .cmd-table { display: flex; flex-direction: column; min-height: 0; }
+.perms-layout .cmd-table > .panel { flex: 1 1 auto; min-height: 0; }
+
+/* border-collapse: separate — иначе липкие шапка/колонка «рвут» границы при скролле */
+#perms-table { border-collapse: separate; border-spacing: 0; }
+#perms-table th, #perms-table td { vertical-align: middle; padding: 6px 8px; }
+#perms-table td.perm-cell { text-align: center; }
+#perms-table td.perm-cell label { margin: 0 4px; cursor: pointer; font-size: 12px; }
+#perms-table td.perm-cell input { cursor: pointer; }
+#perms-table th.role-head { text-align: center; }
+
+/* Липкая шапка таблицы: фон обязан быть непрозрачным,
+   иначе сквозь шапку просвечивают прокручиваемые строки */
+#perms-table thead th {
+    position: sticky; top: 0; z-index: 10;
+    background: #212529;
+    box-shadow: inset 0 -1px 0 var(--panel-border);
+}
+
+/* Липкая первая колонка при горизонтальном скролле */
+#perms-table th:first-child, #perms-table td:first-child {
+    position: sticky; left: 0; z-index: 5;
+    background: var(--panel-bg);
+    box-shadow: inset -1px 0 0 var(--panel-border);
+}
+
+/* Угол «шапка + первая колонка» — выше всех и с двумя границами */
+#perms-table thead th:first-child {
+    z-index: 15;
+    background: #212529;
+    box-shadow: inset -1px 0 0 var(--panel-border), inset 0 -1px 0 var(--panel-border);
+}
+
+/* Строка-заголовок группы ресурсов (как разделы в меню) */
+#perms-table tr.perm-group-row td {
+    background: var(--panel-header-bg, var(--bs-tertiary-bg, #2b3035));
+    font-weight: 600;
+    color: var(--accent-color, #6ea8fe);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+}
+
+/* Подсветка строки при наведении (заголовки групп не подсвечиваем) */
+#perms-table tbody tr:not(.perm-group-row):hover td {
+    background: var(--row-hover-bg, rgba(110, 168, 254, 0.12));
+}
+/* Липкая первая колонка перекрывает фон — подсвечиваем её вместе со строкой */
+#perms-table tbody tr:not(.perm-group-row):hover td:first-child {
+    background: var(--row-hover-sticky-bg, #25313f);
+}
+
+/* ---------- МОДУЛЬ: Оборудование (hardware) ---------- */
+/* Заголовки группировки «Локация / Помещение» (RowGroup) */
+.dtrg-group th {
+    background-color: var(--bs-tertiary-bg, #f8f9fa) !important;
+    font-weight: 600;
+    color: var(--bs-body-color, #212529);
+    border-bottom: 2px solid var(--bs-border-color, #dee2e6) !important;
+}
+.dtrg-start { cursor: pointer; }
+/* Уменьшенный шрифт таблицы, чтобы влезало больше колонок */
+#hardware-table td, #hardware-table th {
+    font-size: var(--font-table-compact);
+    vertical-align: middle;
+}
+
+/* ---------- МОДУЛЬ: Поиск по сети (sw_search) ---------- */
+/* Заголовки групп (моделей коммутаторов) */
+.dtrg-group td {
+    background-color: var(--bg-surface-2) !important;
+    color: var(--accent) !important;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 12px !important;
+    border-bottom: 2px solid var(--panel-border) !important;
+}
+
+/* ---------- МОДУЛЬ: Карточка салона (mt_config) ---------- */
+/* Таблица бэкапов на вкладке Backup */
+#bkp-list table { width: 100%; font-size: .85rem; }
+#bkp-list th, #bkp-list td { padding: 4px 8px; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+#bkp-list th { font-size: .75rem; color: #adb5bd; font-weight: 500; }
+
+/* ---------- МОДУЛЬ: Справка (help) ---------- */
+/* Пункт оглавления */
+.help-toc-item { padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: .9rem; }
+.help-toc-item:hover { background: var(--bg-surface-3); }
+.help-toc-active { background: var(--accent-soft); color: var(--accent); }
+/* Текст справки */
+#help-content h5 { color: var(--accent); margin-top: 1.2rem; }
+#help-content h5:first-child { margin-top: 0; }
+#help-content code { background: var(--bg-surface-3); padding: 1px 6px; border-radius: 4px; font-size: .85em; }
+#help-content pre { background: var(--bg-surface-2); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; font-size: .8rem; overflow-x: auto; }
+#help-content table { font-size: .85rem; }
+
+/* ---------- МОДУЛЬ: Обзор бэкапов (backups) ---------- */
+/* Таблица файлов выбранной локации — тот же вид, что на вкладке Backup */
+#bkp-files table { width: 100%; font-size: .85rem; }
+#bkp-files th, #bkp-files td { padding: 4px 8px; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+#bkp-files th { font-size: .75rem; color: #adb5bd; font-weight: 500; }
+/* Карточки дашборда: курсор-рука и подсветка при наведении */
+.bkp-dash-card { cursor: pointer; }
+.bkp-dash-card:hover { border: 1px solid var(--accent); }
+/* Сворачиваемые группы устройств в списке файлов */
+.bkp-dev-head { cursor: pointer; font-weight: 600; padding: 6px 4px; user-select: none; }
+.bkp-dev-head:hover { color: var(--accent); }
+.bkp-dev-head .bi { transition: transform .15s; display: inline-block; }
+.bkp-dev-head.collapsed .bi { transform: rotate(-90deg); }
+/* Стрелка раскрытия устройств в основной таблице */
+.bkp-exp { cursor: pointer; display: inline-block; width: 14px; }
+.bkp-exp:hover { color: var(--accent); }
+.bkp-exp-space { display: inline-block; width: 14px; }   /* выравнивание имён без стрелки */
+/* Подтаблица устройств (раскрытая строка локации) — с отступом */
+.bkp-dev-table { width: calc(100% - 24px); margin: 4px 0 4px 24px; font-size: .85rem; }
+.bkp-dev-table th, .bkp-dev-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.bkp-dev-table th { font-size: .75rem; color: #adb5bd; font-weight: 500; }
+.bkp-dev-table .bkp-devsel { cursor: pointer; }
+.bkp-dev-table .bkp-devsel:hover td { background: var(--bg-surface-3); }
+
+/* Подсветка строк в diff-просмотре бэкапов */
+.diff-add { background: rgba(25, 135, 84, .2); }   /* добавленные строки — зелёные */
+.diff-del { background: rgba(220, 53, 69, .2); }   /* удалённые строки — красные */
+
+/* Вкладки карточки салона */
+#configTabs .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-tabs);
+    white-space: nowrap;
+}
+
+/* Компактные вкладки — только на действительно узких экранах (ноутбуки 15").
+   По высоте НЕ сужаем: на больших мониторах вкладки остаются полноразмерными */
+@media (max-width: 1700px) {
+    #configTabs .nav-link {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}
+
+/* Форма вкладки «Редактировать»: подписи и поля чуть компактнее стандартных
+   Bootstrap, подписи — не жирные. Размеры меняются переменными --edit-form-*
+   в ПАНЕЛИ НАСТРОЕК */
+#edit-pane .form-label,
+#edit-pane .form-check-label {
+    font-size: var(--edit-form-font);
+    font-weight: 500;              /* вместо fw-bold — спокойный средний вес */
+    margin-bottom: 2px;            /* подпись ближе к своему полю */
+}
+#edit-pane .form-control-sm,
+#edit-pane .form-select-sm {
+    font-size: var(--edit-form-font);
+    padding: var(--edit-field-pad-y) var(--edit-field-pad-x);
+    min-height: 0;
+}
+/* Кнопка «IP» в группе с селектом группы — в тот же размер */
+#edit-pane .input-group-sm > .btn { font-size: var(--edit-form-font); }
+
+/* Вкладка «Конфиг»: текстовое поле растянуто до низа панели.
+   Снимаем глобальный потолок log-box (270px) только для этого поля —
+   flex-разметка вкладки сама распределяет высоту */
+#config-pane { min-height: 0; }
+#configText {
+    min-height: 0;
+    max-height: none;
+}
+
+/* Карточки устройств MikroTik на вкладке «Статистика» (child_data.php) */
+.mt-device-card { background: #2d2d2d; border-radius: 12px; border: 1px solid var(--panel-border); margin-bottom: 16px; overflow: hidden; }
+.mt-device-card:hover { border-color: #4d4d4d; }
+.mt-device-header { padding: 14px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--panel-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.mt-device-body { padding: 16px 20px; }
+.mt-device-footer { padding: 10px 20px; background: var(--panel-bg); border-top: 1px solid var(--panel-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #888; }
+.mt-stat-item { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #333; font-size: 13px; }
+.mt-stat-item:last-child { border-bottom: none; }
+.mt-stat-label { color: #888; }
+.mt-stat-value { font-weight: 500; color: #e0e0e0; }
+
+/* Статус перевода устройства (ок / ошибка / мигрирован) */
+.mt-device-status { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.mt-device-status.ok { background: #1a3a2a; color: #7ddf9a; }
+.mt-device-status.error { background: #3a1a1a; color: #df7d7d; }
+.mt-device-status.migrated { background: #1a2a3a; color: #7d9adf; }
+
+/* Кнопки действий в карточке устройства */
+.mt-device-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.mt-device-actions .btn { font-size: 12px; padding: 4px 14px; border-radius: 6px; }
+.mt-device-actions .btn-outline-warning { color: #ffc107; border-color: #ffc107; }
+.mt-device-actions .btn-outline-warning:hover { background: #ffc107; color: #000; }
+.mt-device-actions .btn-outline-primary { color: #0d6efd; border-color: #0d6efd; }
+.mt-device-actions .btn-outline-primary:hover { background: #0d6efd; color: #fff; }
+.mt-device-actions .btn-outline-secondary { color: #adb5bd; border-color: #adb5bd; }
+.mt-device-actions .btn-outline-secondary:hover { background: #adb5bd; color: #000; }
+
+/* Шапка карточки: модель, hostname, IP-плашка */
+.mt-device-model { font-weight: 600; font-size: 15px; color: #e0e0e0; }
+.mt-device-hostname { font-size: 13px; color: #aaa; }
+.mt-device-ip { font-family: monospace; font-size: 13px; background: #333; padding: 2px 10px; border-radius: 12px; color: #ccc; }
+
+/* Блок текста ошибки опроса устройства */
+.mt-error-box { background: #2a1a1a; border: 1px solid #3d1a1a; border-radius: 6px; padding: 8px 12px; margin-top: 12px; font-size: 13px; color: #df7d7d; }
+
+/* Мелкие бейджи «да/нет» (LTE, USB-модем, RADIUS) */
+.mt-status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+.mt-status-badge.yes { background: #1a3a2a; color: #7ddf9a; }
+.mt-status-badge.no { background: #3a1a1a; color: #df7d7d; }
+
+/* ---------- МОДУЛЬ: Карта салонов (mt_maps) ---------- */
+#map {
+    height: calc(100vh - 120px);
+    width: 100%;
+    min-height: 500px;
+    position: relative;
+    z-index: 0;
+}
+.leaflet-popup-content { min-width: 280px; max-width: 350px; }
+/* Блок MikroTik внутри попапа карты.
+   Цвета светлые намеренно: попап Leaflet всегда с белым фоном. */
+.mikrotik-info { background: #f8f9fa; border-radius: 6px; padding: 8px; margin-top: 8px; font-size: 11px; }
+.mikrotik-info .label { color: #6c757d; width: 90px; display: inline-block; }
+.mikrotik-info .value { font-weight: 500; color: #212529; }
+.mikrotik-info hr { margin: 6px 0; }
+.device-status-ok { color: #198754; }
+.device-status-error { color: #dc3545; }
+
+/* ---------- МОДУЛЬ: Статистика парка MikroTik (mt_stat) ---------- */
+/* Карточки-счётчики сверху */
+.stat-card { border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.2s; }
+.stat-card:hover { transform: translateY(-3px); }
+.stat-number { font-size: 1.8em; font-weight: bold; }
+.stat-label { font-size: 0.85em; opacity: 0.9; }
+.bg-dark-card { background-color: #343a40; color: white; }
+.text-white-80 { color: rgba(255,255,255,0.8); }
+
+/* Компактные таблицы и карточки статистики.
+   font-size фиксированный (не em): база .table теперь 13px, em давал бы ~10px */
+.table-compact { font-size: 12px; }
+.table-compact td, .table-compact th { padding: 4px 6px; }
+.card-compact { margin-bottom: 15px; }
+.card-header-compact { background-color: #2b2b2b !important; color: #e0e0e0 !important; border-bottom: 1px solid #444 !important; }
+.card-body-compact { padding: 10px 12px; }
+
+/* Прогресс-бары доли устройств */
+.progress { height: 15px; border-radius: 4px; }
+.progress-bar { font-size: 0.9em; line-height: 15px; padding-right: 6px; }
+
+/* Кликабельные строки (детализация по клику) */
+.stat-row { cursor: pointer; }
+.stat-row:hover { background-color: rgba(23,162,184,0.08); }
+
+/* ---------- МОДУЛЬ: Матрица VLAN (ipam_matrix) ----------
+   Таблица с закреплённой шапкой (2 строки) и закреплённым
+   левым блоком из 5 колонок. Состояния ячеек:
+   mx-a = Accept (зелёный), mx-d = Drop (красный),
+   mx-n = не задано, mx-self = диагональ (свой VLAN). */
+
+/* Обёртка со скроллом по обеим осям */
+.mx-wrap { overflow: auto; max-height: calc(100vh - 150px); }
+
+table.mx { border-collapse: separate; border-spacing: 0; font-size: var(--mx-font); }
+.mx th, .mx td {
+    border-right: 1px solid var(--bs-border-color);
+    border-bottom: 1px solid var(--bs-border-color);
+    padding: 2px 6px;
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+/* Закреплённая шапка: первая строка поверх второй */
+.mx thead th { position: sticky; z-index: 5; background: var(--bs-body-bg); }
+.mx thead tr:nth-child(1) th { top: 0;   height: var(--mx-h1); }
+.mx thead tr:nth-child(2) th { top: var(--mx-h1); height: var(--mx-h2); }
+
+/* Закреплённый левый блок (5 колонок с фиксированными ширинами и сдвигами) */
+.mx .mx-l {
+    position: sticky; z-index: 4;
+    background: var(--bs-body-bg);
+    overflow: hidden; text-overflow: ellipsis;
+}
+.mx thead .mx-l { z-index: 7; } /* пересечение шапки и левого блока */
+.mx .mx-c1 { left: 0; width: var(--mx-w1); min-width: var(--mx-w1); max-width: var(--mx-w1); }
+.mx .mx-c2 { left: var(--mx-w1); width: var(--mx-w2); min-width: var(--mx-w2); max-width: var(--mx-w2); text-align: center; }
+.mx .mx-c3 { left: calc(var(--mx-w1) + var(--mx-w2)); width: var(--mx-w3); min-width: var(--mx-w3); max-width: var(--mx-w3); }
+.mx .mx-c4 { left: calc(var(--mx-w1) + var(--mx-w2) + var(--mx-w3)); width: var(--mx-w4); min-width: var(--mx-w4); max-width: var(--mx-w4); }
+.mx .mx-c5 { left: calc(var(--mx-w1) + var(--mx-w2) + var(--mx-w3) + var(--mx-w4)); width: var(--mx-w5); min-width: var(--mx-w5); max-width: var(--mx-w5); }
+
+/* Угол пересечения шапки и левого блока */
+.mx .mx-corner { left: 0; z-index: 8 !important; }
+
+/* Площадка: группа в шапке и вертикальная ячейка слева.
+   Фон группы НЕпрозрачный — иначе при прокрутке сквозь шапку видно ячейки */
+.mx .mx-grp { background: var(--bs-primary-bg-subtle); font-weight: 600; text-align: center; }
+.mx .mx-loc { font-weight: 600; text-align: center; vertical-align: middle; }
+
+/* Колонки-заголовки VLAN: строго фиксированная ширина,
+   подпись повёрнута вертикально (читается снизу вверх) */
+.mx .mx-col {
+    text-align: center; vertical-align: bottom;
+    width: var(--mx-cell); min-width: var(--mx-cell); max-width: var(--mx-cell);
+    overflow: hidden;
+}
+.mx .mx-col-txt {
+    display: inline-block;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    font-size: 0.8em;
+    max-height: calc(var(--mx-h2) - 8px);
+    overflow: hidden;
+    vertical-align: bottom;
+}
+/* Номер VLAN — первая вертикальная строка (акцент),
+   имя — вторая вертикальная строка (приглушённая) */
+.mx .mx-col-id { font-weight: 600; }
+.mx .mx-col-nm { color: var(--bs-secondary-color); margin-left: 1px; }
+
+/* Ячейки матрицы и их состояния */
+.mx .mx-c { width: var(--mx-cell); min-width: var(--mx-cell); max-width: var(--mx-cell); text-align: center; }
+.mx .mx-c[data-src] { cursor: pointer; }
+.mx .mx-c[data-src]:hover { outline: 2px solid var(--bs-primary); outline-offset: -2px; }
+.mx .mx-a { background: var(--bs-success-bg-subtle);  color: var(--bs-success-text-emphasis); }
+.mx .mx-d { background: var(--bs-danger-bg-subtle);   color: var(--bs-danger-text-emphasis); }
+.mx .mx-n { color: var(--bs-secondary-color); }
+.mx .mx-self { background: var(--bs-tertiary-bg); color: var(--bs-border-color); }
+
+/* Перекрестная подсветка под курсором:
+   mx-hl — столбец, mx-hlr — строка, mx-cur — сама ячейка */
+.mx .mx-hl { box-shadow: inset 0 0 0 100px rgba(13,110,253,.12); }
+.mx tr.mx-hlr > th, .mx tr.mx-hlr > td { box-shadow: inset 0 0 0 100px rgba(13,110,253,.12); }
+.mx .mx-cur { outline: 2px solid var(--bs-primary) !important; outline-offset: -2px; }
+
+/* Разделители между площадками (приглушённые):
+   mx-vs — вертикальная граница, mx-gs — горизонтальная (первая строка группы) */
+.mx .mx-vs { border-left: 1.5px solid #b0bac6 !important; }
+.mx tr.mx-gs > th, .mx tr.mx-gs > td { border-top: 1.5px solid #b0bac6; }
+
+/* Легенда над таблицей */
+.mx-lg { display: inline-block; width: 18px; text-align: center; border-radius: 3px; }
+
+/* ---------- МОДУЛЬ: История запусков (mt_history) ----------
+   Растяжка левой колонки — универсальная (.col-fit, см. секцию 6).
+   Здесь только оформление содержимого деталей запуска. */
+
+/* Шаблон команд внутри деталей — обычный блок БЕЗ собственного скролла,
+   чтобы не было «скролла в скролле» */
+.hist-cmd {
+    background: var(--panel-inner-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 8px 0 0;
+    font-size: var(--log-font);
+    color: #9ab;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Строки устройств внутри деталей */
+#run-details .item-line {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--bg-surface-3);
+    font-size: var(--log-font);
+}
+#run-details .item-line:last-child { border-bottom: none; }
+#run-details .item-line .out {
+    color: #9ab;
+    margin-top: 2px;
+    padding-left: 20px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ============================================================================
+   10. СТРАНИЦА ВХОДА (login.php)
+   Страница автономная (без Bootstrap), все её стили — только здесь
+   и только внутри .login-page, чтобы не влиять на остальные модули.
+   ============================================================================ */
+.login-page, .login-page * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.login-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #212529;
+    color: #dee2e6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    background: #2b3035;
+    padding: 36px 28px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px #495057;
+    width: 100%;
+    max-width: 360px;
+}
+
+.login-card h2 {
+    margin-bottom: 24px;
+    color: #f8f9fa;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Поля ввода логина/пароля */
+.login-page .field {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 15px;
+    color: #dee2e6;
+    background: #212529;
+    border: 1px solid #495057;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.login-page .field::placeholder { color: #6c757d; }
+.login-page .field:focus { border-color: #0d6efd; }
+
+/* Кнопка «Вход» */
+.login-page .btn {
+    width: 100%;
+    padding: 11px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    background: #0d6efd;
+    border: 1px solid #0d6efd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+.login-page .btn:hover  { background: #0b5ed7; }
+.login-page .btn:active { background: #0a58ca; }
+
+/* Ошибка входа и предупреждение об истекшей сессии */
+.login-page .alert {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    text-align: center;
+    background: #842029;
+    color: #f8d7da;
+    border: 1px solid #842029;
+}
+.login-page .alert-warn { background: #332701; color: #ffda6a; border: 1px solid #664d03; }
+
+/* ============================================================================
+   11. АДАПТИВ: НОУТБУКИ 15" (HiDPI 2560×1600, масштаб Windows 150–200%)
+   Срабатывает при CSS-ширине ≤ 1700px ИЛИ высоте ≤ 1000px.
+   Здесь переопределяются ТЕ ЖЕ переменные из ПАНЕЛИ НАСТРОЕК —
+   компактные значения для тесного экрана. Экраны меньше 15" не поддерживаем.
+   ============================================================================ */
+@media (max-width: 1700px), (max-height: 1000px) {
+    :root {
+        /* Каркас */
+        --page-top-pad:      22px;
+        --sticky-top:        calc(var(--navbar-h) + 8px);
+        --form-max-h:        calc(100vh - var(--navbar-h) - 30px);
+        --form-width:        400px;
+        --table-min-width:   500px;
+        --layout-gap:        12px;
+
+        /* Шрифты и таблицы */
+        --base-font:         11px;
+        --cell-pad-y:        8px;
+        --cell-pad-x:        9px;
+        --log-font:          10px;
+        --hint-font:         10px;
+        --banner-font:       11px;
+
+        /* Логи и текстовые поля */
+        --log-height:        130px;
+        --textarea-min-h:    150px;
+        --textarea-pad:      10px;
+        --comment-h:         70px;
+
+        /* Вкладка «Редактировать» — форма ещё чуть мельче */
+        --edit-form-font:    11px;
+        --edit-field-pad-y:  2px;
+
+        /* Панели и баннеры */
+        --panel-padding:     10px 12px;
+        --banner-pad:        6px 12px;
+
+        /* Список файлов */
+        --dl-icon-size:      22px;
+    }
+}
+

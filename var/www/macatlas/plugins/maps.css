@@ -1,0 +1,173 @@
+/* ---------- МОДУЛЬ: Карта сети (maps) ---------- */
+/* Раскладка: холст слева, панель справа — как в других модулях */
+.maps-module {
+    overflow: hidden;   /* модуль full-screen: скролл только внутри панели */
+}
+
+.maps-layout {
+    display: flex;
+    gap: 8px;
+    height: calc(100vh - 110px);   /* минус шапка и отступы */
+    position: relative;
+}
+
+/* Холст vis-network: серый фон как в drawio */
+.maps-canvas-wrap {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+}
+
+#maps-canvas {
+    width: 100%;
+    height: 100%;
+    /* серый фон с мелкой сеткой — как в drawio */
+    background-color: #B3B3B3;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+    background-size: 20px 20px;
+    border: 1px solid var(--bs-border-color, #495057);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* Сетка выключена (настройка карты) — остаётся только цвет фона */
+#maps-canvas.no-grid {
+    background-image: none;
+}
+
+/* Панель инструментов поверх холста (левый верхний угол) */
+.maps-toolbar {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.maps-toolbar .btn-outline-light {
+    background: rgba(33, 37, 41, 0.75);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.maps-toolbar .btn-outline-light:hover,
+.maps-toolbar .btn-outline-light.active {
+    background: rgba(13, 110, 253, 0.85);
+}
+
+/* Статусная строка в тулбаре */
+.maps-status {
+    font-size: 0.8rem;
+    color: #212529;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.maps-status:empty { display: none; }
+.maps-status.err { color: #842029; background: #f8d7da; }
+.maps-status.ok  { color: #0f5132; background: #d1e7dd; }
+
+/* Правая панель: ширина по умолчанию, тянется за левый край (.maps-resize) */
+.maps-panel {
+    width: 320px;
+    flex: 0 0 320px;
+    min-width: 240px;
+    max-width: 480px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+}
+
+/* Ручка растягивания панели (левая кромка) */
+.maps-resize {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    cursor: col-resize;
+    z-index: 15;
+    border-radius: 4px;
+}
+.maps-resize:hover {
+    background: rgba(13, 110, 253, 0.25);
+}
+
+/* Разделители между блоками правой панели */
+.maps-panel > div + div {
+    border-top: 1px solid var(--bs-border-color, rgba(255, 255, 255, 0.15));
+    padding-top: 10px;
+}
+
+/* Инспектор VLAN на линке: карточка конца линка */
+.vlan-ep {
+    border: 1px solid var(--bs-border-color, rgba(255, 255, 255, 0.14));
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 6px 8px;
+    margin-bottom: 6px;
+}
+
+/* Чипы VLAN — компактные, моноширинные */
+.vlan-chips {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    vertical-align: middle;
+}
+.vlan-chip {
+    font: 600 11px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    padding: 0 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.vlan-chips.warn .vlan-chip {
+    background: rgba(255, 193, 7, 0.16);
+    border-color: rgba(255, 193, 7, 0.55);
+    color: #ffda6a;
+}
+
+/* Чип легенды ролей */
+.maps-legend-chip {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 1px solid;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+/* Круглый чип легенды (точка доступа, модем) */
+.maps-legend-round {
+    border-radius: 50%;
+}
+
+/* Контекстное меню узла (ПКМ): открыть веб-интерфейс */
+.maps-ctxmenu {
+    position: absolute;
+    z-index: 30;
+    min-width: 180px;
+    background: #212529;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.375rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.35);
+    padding: 0.25rem 0;
+}
+
+.maps-ctxitem {
+    display: block;
+    padding: 0.3rem 0.9rem;
+    color: #dee2e6;
+    text-decoration: none;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.maps-ctxitem:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}

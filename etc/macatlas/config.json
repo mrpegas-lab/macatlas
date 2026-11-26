@@ -1,0 +1,29 @@
+{
+  "key": {
+    "master_key": "__MASTER_KEY__"
+  },
+  "FIRMWARE": {
+    "URL": "http://macatlas.local/files/firmware/",
+    "DIR": "/var/www/macatlas/files/firmware/",
+    "MODE": "prod",
+    "_comment": "MODE: test = пробный прогон (скачать прошивку на роутер, без перезагрузки и без записи в БД); prod = боевое обновление (перезагрузка + запись в БД)"
+  },
+  "FILES": {
+    "DOWNLOAD_DIR": "/var/www/macatlas/files",
+    "URL_PREFIX": "/files"
+  },
+  "app": {
+    "debug": false,
+    "version": "1.5.0"
+  },
+  "backup_ignore": [
+    "!System Up Time",
+    "!Current SNTP Synchronized Time"
+  ],
+  "bd": {
+    "dblocation": "__DB_HOST__",
+    "dbuser": "__DB_USER__",
+    "dbpasswd": "__DB_PASSWORD__",
+    "dbname": "__DB_NAME__"
+  }
+}

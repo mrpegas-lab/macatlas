@@ -1,0 +1,11 @@
+# Ротация логов cron-задач MacAtlas (/var/log/macatlas/*.log).
+# copytruncate: скрипты пишут в открытый дескриптор, файл нельзя просто переименовать.
+/var/log/macatlas/*.log {
+    weekly
+    rotate 12
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}
